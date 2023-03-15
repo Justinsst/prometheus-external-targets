@@ -22,7 +22,7 @@ service:
 replicaCount: 1
 
 image:
-  repository: registry.points.com/justin.stewart/external-targets
+  repository: docker.io/justinsst/external-targets
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
