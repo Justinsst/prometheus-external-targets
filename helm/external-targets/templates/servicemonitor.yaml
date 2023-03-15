@@ -1,0 +1,22 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    {{ if .Values.serviceMonitor.serviceMonitorSelectorLabel }}
+    {{- toYaml .Values.serviceMonitor.serviceMonitorSelectorLabel | nindent 4 }}
+    {{- end -}}
+    {{- include "external-targets.labels" . | nindent 4 }}
+  name: {{ include "external-targets.fullname" . }}
+spec:
+  endpoints:
+  - interval: 10s
+    path: {{ .Values.serviceMonitor.metricsPath }}
+    port: metrics
+    scheme: http
+    scrapeTimeout: 10s
+  namespaceSelector:
+    matchNames:
+    - {{ .Release.Namespace }}
+  selector:
+    matchLabels:
+      {{- include "external-targets.labels" . | nindent 6 }}

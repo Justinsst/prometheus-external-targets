@@ -1,0 +1,49 @@
+from kubernetes import client, config
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+def cluster_config(func):
+    def wrapper(*args, **kwargs):
+        if kwargs['kubeconfig']:
+            kubeconfig = kwargs['kubeconfig']
+            try:
+                config.load_kube_config(kubeconfig)
+            except config.config_exception.ConfigException:
+                raise RuntimeError(f'Unable to load specified kubeconfig file: {kubeconfig}')
+        else:
+            try:
+                config.load_incluster_config()
+            except config.config_exception.ConfigException:
+                raise RuntimeError('Unable to load in-cluster kube config')
+        result = func(*args, **kwargs)
+        return result
+    return wrapper
+
+
+@cluster_config
+def apply_endpoint(manifest, namespace, kubeconfig=None):
+    v1 = client.CoreV1Api()
+    try:
+        v1.create_namespaced_endpoints(namespace=namespace, body=manifest)
+        return True
+    except client.ApiException as e:
+        if e.reason == "Conflict":
+            logger.error(f"Failed to create {manifest['metadata']['name']} "
+                          f"{manifest['kind']}, resource already exists. "
+                           "Trying replace instead.")
+        else:
+            logger.error(f"Failed to create {manifest['metadata']['name']} "
+                          f"{manifest['kind']}. Trying replace instead.")
+            logger.error(e)
+
+    try:
+        v1.replace_namespaced_endpoints(name=manifest['metadata']['name'],
+                                        namespace=namespace, body=manifest)
+        logging.info(f"{manifest['kind']} resource with name " 
+                     f"{manifest['metadata']['name']} was replaced.")
+        return True
+    except client.ApiException as e:
+            logger.error(f"Failed to replace {manifest['metadata']['name']}.")
+            raise RuntimeError(e)

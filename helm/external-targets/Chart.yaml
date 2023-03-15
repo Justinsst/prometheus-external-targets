@@ -1,0 +1,6 @@
+apiVersion: v2
+name: external-targets
+description: This chart creates a serviceMonitor, headless service and endpoint resource for scraping prometheus targets external to the cluster.
+type: application
+version: 0.0.1
+appVersion: "v0.0.1"
