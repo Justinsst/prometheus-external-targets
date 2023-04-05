@@ -25,7 +25,7 @@ To get started after cloning the project:
 
     # List of hosts to scrape
     externalTargets:
-    - bal01-dinobot-ops.pr1.points.com
+    - my-scrape-target.example
 
     serviceMonitor:
     # The label to apply to the servicemonitor resource so it gets picked up by the prometheus operator. 
