@@ -16,4 +16,4 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-external_targets = "external_targets.app:main"
+external_targets = "external_targets.main:main"

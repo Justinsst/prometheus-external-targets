@@ -36,6 +36,12 @@ spec:
           env:
             - name: LOGLEVEL
               value: {{ .Values.logLevel }}
+            - name: REFRESH_INTERVAL
+              value: {{ .Values.refreshInterval | default "60" }}
+            - name: REQUEST_RETRIES
+              value: {{ .Values.maxDnsRetries | default "3" }}
+            - name: RETRY_REQUEST_INTERVAL
+              value: {{ .Values.retryRequestInterval | default "3" }}
             - name: NAMESPACE
               valueFrom:
                 fieldRef:

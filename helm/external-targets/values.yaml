@@ -4,8 +4,14 @@
 
 logLevel: info
 
-# Number of seconds to wait before performing DNS requests. 
+# Number of seconds to wait before refreshing the list of IPs. 
 refreshInterval: 30
+
+# Number of times to retry after failed DNS request for each given hostname.
+maxDnsRetries: 3
+
+# Number of seconds to wait between retried DNS requests.
+retryRequestInterval: 5
 
 # List of hosts to scrape
 externalTargets: []

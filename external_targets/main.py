@@ -1,10 +1,10 @@
 import argparse
 import logging
-import socket
 import os
 import yaml
 from time import sleep
 from utils import kube_api
+from utils.get_ip import get_ip
 from environment import LOGLEVEL, NAMESPACE, REFRESH_INTERVAL
 
 
@@ -19,7 +19,10 @@ def main():
     while True:
         endpoint_addresses = []
         for hostname in target_hostnames.splitlines():
-            entry = {'ip': socket.gethostbyname(hostname)}
+            ip = get_ip(hostname)
+            if not ip:
+                raise RuntimeError(f"DNS lookup failed for host {hostname}")
+            entry = {'ip': ip}
             endpoint_addresses.append(entry)
         body['subsets'][0]['addresses'] = endpoint_addresses
         logging.debug(f"New endpoint manifest: {body}")

@@ -3,7 +3,7 @@ name: external-targets
 description: This chart creates a serviceMonitor, headless service and endpoint resource for scraping prometheus targets external to a cluster.
 type: application
 version: 0.0.1
-appVersion: "v0.0.1"
+appVersion: "v0.0.2"
 maintainers:
   - name: JustinStewart
     email: justinstewart950@gmail.com
