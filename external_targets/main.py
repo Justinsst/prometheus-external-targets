@@ -3,9 +3,9 @@ import logging
 import os
 import yaml
 from time import sleep
-from external_targets.utils import kube_api
-from external_targets.utils import get_ip
-from .environment import LOGLEVEL, NAMESPACE, REFRESH_INTERVAL
+from utils import kube_api
+from utils.get_ip import get_ip
+from environment import *
 
 
 def main():
@@ -19,7 +19,7 @@ def main():
     while True:
         endpoint_addresses = []
         for hostname in target_hostnames.splitlines():
-            ip = get_ip(hostname)
+            ip = get_ip(hostname, REQUEST_RETRIES, RETRY_REQUEST_INTERVAL)
             if not ip:
                 raise RuntimeError(f"DNS lookup failed for host {hostname}")
             entry = {'ip': ip}
