@@ -4,4 +4,4 @@ if [ $# -ne 0 ]; then
     exit $?
 fi
 
-python3 ${APP_DIR}/app.py
+python3 ${APP_DIR}/main.py

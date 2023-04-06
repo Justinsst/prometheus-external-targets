@@ -3,7 +3,6 @@ import logging
 from time import sleep
 from external_targets.environment import REQUEST_RETRIES, RETRY_REQUEST_INTERVAL
 
-
 logger = logging.getLogger(__name__)
 
 
