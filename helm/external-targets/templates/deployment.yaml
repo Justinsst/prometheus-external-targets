@@ -35,7 +35,13 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
             - name: LOGLEVEL
-              value: {{ .Values.logLevel }}
+              value: {{ .Values.logLevel | upper }}
+            - name: REFRESH_INTERVAL
+              value: {{ .Values.refreshInterval | default "60" | quote }}
+            - name: REQUEST_RETRIES
+              value: {{ .Values.maxDnsRetries | default "3" | quote }}
+            - name: RETRY_REQUEST_INTERVAL
+              value: {{ .Values.retryRequestInterval | default "3" | quote }}
             - name: NAMESPACE
               valueFrom:
                 fieldRef:
