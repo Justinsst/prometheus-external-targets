@@ -1,6 +1,8 @@
 # External-targets
 
-Allow prometheus targets outside a cluster to be scraped by hostname instead of IP address (i.e., manually creating an endpoint resource).
+Allow prometheus targets outside of a cluster to be scraped by hostname instead of IP address. 
+
+This Helm chart allows you to define a list of hostnames to scrape and the IP address in the endpoint object will be updated dynamically via a DNS lookup. This avoids having to manually create an endpoint resource with a list of IP address.
 
 ## Getting Started
 
@@ -20,18 +22,24 @@ To get started after cloning the project:
   * `helm -n <namespace> install external-targets-test ./helm/external-targets/ -f values.yaml`
   * Example values file: 
     ```
-    # Number of seconds to wait before performing DNS requests. 
+    # Number of seconds to wait before refreshing the list of IPs. 
     refreshInterval: 30
+
+    # Number of times to retry after failed DNS request for each given hostname.
+    maxDnsRetries: 3
+
+    # Number of seconds to wait between retried DNS requests.
+    retryRequestInterval: 5
 
     # List of hosts to scrape
     externalTargets:
     - my-scrape-target.example
 
     serviceMonitor:
-    # The label to apply to the servicemonitor resource so it gets picked up by the prometheus operator. 
-    serviceMonitorSelectorLabel:
+      # The label to apply to the servicemonitor resource so it gets picked up by the prometheus operator. 
+      serviceMonitorSelectorLabel:
         release: prometheus
-    metricsPath: "/metrics/"
+      metricsPath: "/metrics/"
     
     # The port for the metrics endpoint for all hosts.
     service:
