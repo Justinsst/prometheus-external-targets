@@ -3,9 +3,9 @@ import logging
 import os
 import yaml
 from time import sleep
-from utils import kube_api
-from utils.get_ip import get_ip
-from environment import LOGLEVEL, NAMESPACE, REFRESH_INTERVAL
+from external_targets.utils import kube_api
+from external_targets.utils import get_ip
+from .environment import LOGLEVEL, NAMESPACE, REFRESH_INTERVAL
 
 
 def main():

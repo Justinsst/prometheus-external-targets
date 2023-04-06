@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "external-targets"
-version = "0.0.2"
+version = "0.0.3"
 description = ""
 authors = ["Justin Stewart <justin.stewart@points.com>"]
 readme = "README.md"
