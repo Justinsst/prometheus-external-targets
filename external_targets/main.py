@@ -19,15 +19,18 @@ def main():
     while True:
         endpoint_addresses = []
         for hostname in target_hostnames.splitlines():
+            logging.info(f'Getting IP for hostname "{hostname}".')
             ip = get_ip(hostname, REQUEST_RETRIES, RETRY_REQUEST_INTERVAL)
             if not ip:
                 raise RuntimeError(f"DNS lookup failed for host {hostname}")
             entry = {'ip': ip}
+            logging.info(f'Got IP {ip} for hostname "{hostname}".')
             endpoint_addresses.append(entry)
         body['subsets'][0]['addresses'] = endpoint_addresses
         logging.debug(f"New endpoint manifest: {body}")
         try:
             kube_api.apply_endpoint(body, NAMESPACE, kubeconfig=kubeconfig)
+            logging.info(f"Successfully updated Endpoint resource.")
         except RuntimeError:
             logging.exception()
         logging.info(f"Waiting for {REFRESH_INTERVAL} seconds before next refresh.")
