@@ -3,9 +3,9 @@ import logging
 import os
 import yaml
 from time import sleep
-from utils import kube_api
-from utils.get_ip import get_ip
-from environment import *
+from .utils import kube_api
+from .utils.get_ip import get_ip
+from .environment import *
 
 
 def main():
