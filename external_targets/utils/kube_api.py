@@ -30,9 +30,9 @@ def apply_endpoint(manifest, namespace, kubeconfig=None):
         return True
     except client.ApiException as e:
         if e.reason == "Conflict":
-            logger.exception(f"Failed to create {manifest['metadata']['name']} "
-                             f"{manifest['kind']}, resource already exists. "
-                             "Trying replace instead.")
+            logger.info(f"Failed to create {manifest['metadata']['name']} "
+                        f"{manifest['kind']}, resource already exists. "
+                        "Trying replace instead.")
         else:
             logger.exception(f"Failed to create {manifest['metadata']['name']} "
                              f"{manifest['kind']}. Trying replace instead.")
