@@ -2,8 +2,7 @@
 name = "external-targets"
 version = "0.1.0"
 description = ""
-authors = ["Justin Stewart <justin.stewart@points.com>"]
-readme = "README.md"
+authors = ["Justin Stewart <justinstewart950@gmail.com>"]
 packages = [{include = "external_targets"}]
 
 [tool.poetry.dependencies]
