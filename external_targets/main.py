@@ -13,8 +13,8 @@ def main():
     logging.basicConfig(level=LOGLEVEL, format=log_format)
 
     kubeconfig = parse_args().kubeconfig
-    body = yaml.safe_load(os.environ.get('BASE_ENDPOINT_MANIFEST'))
-    target_hostnames = os.environ.get('TARGETS')
+    body = yaml.safe_load(os.environ['BASE_ENDPOINT_MANIFEST'])
+    target_hostnames = os.environ['TARGETS']
 
     while True:
         endpoint_addresses = []
