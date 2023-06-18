@@ -1,27 +1,33 @@
-FROM python:3.8.16-slim-bullseye
+FROM python:3.11.4-slim-bullseye
 
-ARG APP_DIR="/home/python/external_targets"
-ARG USERNAME="python"
+ENV APP_GROUP=python \
+    APP_USER=python \
+    APP_USER_ID=9999 \
+    POETRY_VERSION=1.4.2 \
+    DUMB_INIT_VERSION=1.2.2
+ENV PATH="$PATH:/home/$APP_USER/.local/bin" \
+    APP_DIR="~${APP_USER}/content"
 
-ENV APP_DIR $APP_DIR
-ENV DUMB_INIT_VERSION=1.2.2
-
+# Install packages.
 RUN apt-get update -y && apt-get install dnsutils wget -y
-RUN useradd -ms /bin/bash ${USERNAME} \
-    && mkdir ${APP_DIR} \
-    && chown -R ${USERNAME}:${USERNAME} ${APP_DIR}
-
-WORKDIR ${APP_DIR}
-
-RUN  wget -O /usr/local/bin/dumb-init \
+RUN wget -O /usr/local/bin/dumb-init \
         https://github.com/Yelp/dumb-init/releases/download/v${DUMB_INIT_VERSION}/dumb-init_${DUMB_INIT_VERSION}_amd64 \
     && chmod +x /usr/local/bin/dumb-init \
     && apt-get remove wget -y
 
-USER 1000
-COPY --chown=${USERNAME}:${USERNAME} entrypoint.sh requirements.txt ./
+# Create user and setup directories.
+RUN useradd -ms /bin/bash --uid ${APP_USER_ID} ${APP_USER} \
+    && mkdir -p ${APP_DIR}/external_targets \
+    && chown -R ${APP_USER}:${APP_GROUP} ${APP_DIR}
+WORKDIR ${APP_DIR}
+
+USER ${APP_USER_ID}
+
+# Copy files and install the Python package.
+COPY --chown=${APP_USER}:${APP_USER} entrypoint.sh pyproject.toml ./
+COPY --chown=${APP_USER}:${APP_USER} external_targets/ ./external_targets/
 RUN chmod +x entrypoint.sh \
-    && pip install --user -r requirements.txt
-COPY --chown=${USERNAME}:${USERNAME} external_targets/ ./
+    && pip install --user poetry==${POETRY_VERSION} \
+    && poetry install --no-cache --only main
 
 ENTRYPOINT ["dumb-init", "--", "./entrypoint.sh"]
