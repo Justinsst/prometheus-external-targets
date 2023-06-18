@@ -12,7 +12,7 @@ def get_ip(hostname, retries, interval):
             ip = socket.gethostbyname(hostname)
             return ip
         except:
-            logger.error(f"DNS request failed for host: {hostname}. Retrying {str(retry_count)}/{str(retries)}")    
+            logger.exception(f"DNS request failed for host: {hostname}. Retrying {str(retry_count)}/{str(retries)}")    
         sleep(interval)
         retry_count += 1
     return False
