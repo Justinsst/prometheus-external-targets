@@ -30,13 +30,12 @@ def apply_endpoint(manifest, namespace, kubeconfig=None):
         return True
     except client.ApiException as e:
         if e.reason == "Conflict":
-            logger.error(f"Failed to create {manifest['metadata']['name']} "
-                          f"{manifest['kind']}, resource already exists. "
-                           "Trying replace instead.")
+            logger.exception(f"Failed to create {manifest['metadata']['name']} "
+                             f"{manifest['kind']}, resource already exists. "
+                             "Trying replace instead.")
         else:
-            logger.error(f"Failed to create {manifest['metadata']['name']} "
-                          f"{manifest['kind']}. Trying replace instead.")
-            logger.error(e)
+            logger.exception(f"Failed to create {manifest['metadata']['name']} "
+                             f"{manifest['kind']}. Trying replace instead.")
 
     try:
         v1.replace_namespaced_endpoints(name=manifest['metadata']['name'],
@@ -44,6 +43,7 @@ def apply_endpoint(manifest, namespace, kubeconfig=None):
         logging.info(f"{manifest['kind']} resource with name " 
                      f"{manifest['metadata']['name']} was replaced.")
         return True
-    except client.ApiException as e:
-            logger.error(f"Failed to replace {manifest['metadata']['name']}.")
-            raise RuntimeError(e)
+    except client.ApiException:
+            logger.exception()
+            raise RuntimeError("Failed to replace Endpoint resource "
+                               f"{manifest['metadata']['name']}.")

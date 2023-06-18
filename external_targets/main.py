@@ -26,7 +26,10 @@ def main():
             endpoint_addresses.append(entry)
         body['subsets'][0]['addresses'] = endpoint_addresses
         logging.debug(f"New endpoint manifest: {body}")
-        kube_api.apply_endpoint(body, NAMESPACE, kubeconfig=kubeconfig)
+        try:
+            kube_api.apply_endpoint(body, NAMESPACE, kubeconfig=kubeconfig)
+        except RuntimeError:
+            logging.exception()
         logging.info(f"Waiting for {REFRESH_INTERVAL} seconds before next refresh.")
         sleep(REFRESH_INTERVAL)
 
@@ -35,8 +38,8 @@ def parse_args():
     parser = argparse.ArgumentParser(usage='%(prog)s -k <kubeconfig>')
     parser.add_argument("-k", "--kubeconfig",
                         help="Path to the cluster's kubeconfig. If not specified, \
-                            the in-cluster config is used (source namespace is assumed \
-                            to be on the current cluster).")
+                              the in-cluster config is used (source namespace is assumed \
+                              to be on the current cluster).")
     args = parser.parse_args()
     return args
 
