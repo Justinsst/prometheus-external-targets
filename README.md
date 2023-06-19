@@ -2,7 +2,7 @@
 
 Allow prometheus targets outside of a cluster to be scraped by hostname instead of IP address. 
 
-This Helm chart allows you to define a list of hostnames to scrape and the IP address in the endpoint object will be updated dynamically via a DNS lookup. This avoids having to manually create an endpoint resource with a list of IP address.
+This Helm chart allows you to define a list of hostnames to scrape and the IP address in the Endpoint resource object will be updated dynamically via a DNS lookup. This avoids having to manually create an Endpoint resource with a list of IP address.
 
 ## Getting Started
 
