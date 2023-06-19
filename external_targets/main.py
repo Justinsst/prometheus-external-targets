@@ -22,7 +22,9 @@ def main():
             logging.info(f'Getting IP for hostname "{hostname}".')
             ip = get_ip(hostname, REQUEST_RETRIES, RETRY_REQUEST_INTERVAL)
             if not ip:
-                raise RuntimeError(f"DNS lookup failed for host {hostname}")
+                logging.error(f"DNS lookup failed for host {hostname}. "
+                               "Continuing with the next hostname.")
+                continue
             entry = {'ip': ip}
             logging.info(f'Got IP {ip} for hostname "{hostname}".')
             endpoint_addresses.append(entry)
