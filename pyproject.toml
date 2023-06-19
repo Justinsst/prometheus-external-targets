@@ -1,9 +1,8 @@
 [tool.poetry]
 name = "external-targets"
-version = "0.0.4"
+version = "0.1.0"
 description = ""
-authors = ["Justin Stewart <justin.stewart@points.com>"]
-readme = "README.md"
+authors = ["Justin Stewart <justinstewart950@gmail.com>"]
 packages = [{include = "external_targets"}]
 
 [tool.poetry.dependencies]
@@ -11,9 +10,15 @@ python = "^3.8"
 PyYAML = "^6.0"
 kubernetes = "^26.1.0"
 
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 external_targets = "external_targets.main:main"
+
+[tool.black]
+line-length = 79

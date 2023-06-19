@@ -4,4 +4,4 @@ if [ $# -ne 0 ]; then
     exit $?
 fi
 
-python3 ${APP_DIR}/main.py
+poetry run python3 -m external_targets.main
