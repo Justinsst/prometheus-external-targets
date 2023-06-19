@@ -6,19 +6,22 @@ logger = logging.getLogger(__name__)
 
 def cluster_config(func):
     def wrapper(*args, **kwargs):
-        if kwargs['kubeconfig']:
-            kubeconfig = kwargs['kubeconfig']
+        if kwargs["kubeconfig"]:
+            kubeconfig = kwargs["kubeconfig"]
             try:
                 config.load_kube_config(kubeconfig)
             except config.config_exception.ConfigException:
-                raise RuntimeError(f'Unable to load specified kubeconfig file: {kubeconfig}')
+                raise RuntimeError(
+                    f"Unable to load specified kubeconfig file: {kubeconfig}"
+                )
         else:
             try:
                 config.load_incluster_config()
             except config.config_exception.ConfigException:
-                raise RuntimeError('Unable to load in-cluster kube config')
+                raise RuntimeError("Unable to load in-cluster kube config")
         result = func(*args, **kwargs)
         return result
+
     return wrapper
 
 
@@ -30,20 +33,31 @@ def apply_endpoint(manifest, namespace, kubeconfig=None):
         return True
     except client.ApiException as e:
         if e.reason == "Conflict":
-            logger.info(f"Failed to create {manifest['metadata']['name']} "
-                        f"{manifest['kind']}, resource already exists. "
-                        "Trying replace instead.")
+            logger.info(
+                f"Failed to create {manifest['metadata']['name']} "
+                f"{manifest['kind']}, resource already exists. "
+                "Trying replace instead."
+            )
         else:
-            logger.exception(f"Failed to create {manifest['metadata']['name']} "
-                             f"{manifest['kind']}. Trying replace instead.")
+            logger.exception(
+                f"Failed to create {manifest['metadata']['name']} "
+                f"{manifest['kind']}. Trying replace instead."
+            )
 
     try:
-        v1.replace_namespaced_endpoints(name=manifest['metadata']['name'],
-                                        namespace=namespace, body=manifest)
-        logging.info(f"{manifest['kind']} resource with name " 
-                     f"{manifest['metadata']['name']} was replaced.")
+        v1.replace_namespaced_endpoints(
+            name=manifest["metadata"]["name"],
+            namespace=namespace,
+            body=manifest,
+        )
+        logging.info(
+            f"{manifest['kind']} resource with name "
+            f"{manifest['metadata']['name']} was replaced."
+        )
         return True
     except client.ApiException:
-            logger.exception()
-            raise RuntimeError("Failed to replace Endpoint resource "
-                               f"{manifest['metadata']['name']}.")
+        logger.exception()
+        raise RuntimeError(
+            f"Failed to replace Endpoint resource "
+            f"{manifest['metadata']['name']}."
+        )

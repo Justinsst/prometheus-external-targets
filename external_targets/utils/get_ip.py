@@ -16,11 +16,7 @@ def get_ip(hostname, retries, interval):
             if retry_count >= retries:
                 logger.exception(msg)
             else:
-                logger.error(msg)    
+                logger.error(msg)
         sleep(interval)
         retry_count += 1
     return False
-        
-
-
-
