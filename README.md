@@ -6,7 +6,7 @@ This Helm chart allows you to define a list of hostnames to scrape and the IP ad
 
 ## Getting Started
 
-This project requires Python 3.8, and uses [Poetry to manage dependencies][poetry-proj].
+This project requires Python 3.8+, and uses [Poetry to manage dependencies][poetry-proj].
 
 To get started after cloning the project:
 
