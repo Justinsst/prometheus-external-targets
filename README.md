@@ -1,8 +1,8 @@
 # External-targets
 
-Allow prometheus targets outside of a cluster to be scraped by hostname instead of IP address. 
+Allow a Kubernetes Prometheus instance to scrape targets external to the cluster by hostname instead of IP address.
 
-This Helm chart allows you to define a list of hostnames to scrape and the IP address in the Endpoint resource object will be updated dynamically via a DNS lookup. This avoids having to manually create an Endpoint resource with a list of IP address.
+This Helm chart allows you to define a list of hostnames to scrape and the IP address in the Endpoint resource object will be updated dynamically via a DNS lookup. This avoids having to manually create an Endpoint resource with a list of IP addresses.
 
 ## Getting Started
 
