@@ -73,7 +73,7 @@ def delete_endpoint(manifest, namespace, kubeconfig=None):
         )
         logging.info(
             f"{manifest['kind']} resource with name "
-            f"{manifest['metadata']['name']} was replaced."
+            f"{manifest['metadata']['name']} was deleted."
         )
         return True
     except client.ApiException:
