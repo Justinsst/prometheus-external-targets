@@ -56,8 +56,28 @@ def apply_endpoint(manifest, namespace, kubeconfig=None):
         )
         return True
     except client.ApiException:
-        logger.exception()
+        logger.exception("")
         raise RuntimeError(
             f"Failed to replace Endpoint resource "
             f"{manifest['metadata']['name']}."
+        )
+
+
+@cluster_config
+def delete_endpoint(manifest, namespace, kubeconfig=None):
+    v1 = client.CoreV1Api()
+    try:
+        v1.delete_namespaced_endpoints(
+            name=manifest["metadata"]["name"],
+            namespace=namespace,
+        )
+        logging.info(
+            f"{manifest['kind']} resource with name "
+            f"{manifest['metadata']['name']} was deleted."
+        )
+        return True
+    except client.ApiException:
+        logger.warning(
+            f"Failed to delete Endpoint resource {manifest['metadata']['name']}. "
+            "It may not exist."
         )

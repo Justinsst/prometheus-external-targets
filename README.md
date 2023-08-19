@@ -1,8 +1,8 @@
 # External-targets
 
-Allow prometheus targets outside of a cluster to be scraped by hostname instead of IP address. 
+Allow a [Kubernetes Prometheus instance][kube-prometheus-stack] to scrape targets external to the cluster by hostname instead of IP address.
 
-This Helm chart allows you to define a list of hostnames to scrape and the IP address in the Endpoint resource object will be updated dynamically via a DNS lookup. This avoids having to manually create an Endpoint resource with a list of IP address.
+This Helm chart allows you to define a list of hostnames to scrape and the IP address in the Endpoint resource object will be updated dynamically via a DNS lookup. This avoids having to manually create an Endpoint resource with a list of IP addresses.
 
 ## Getting Started
 
@@ -16,8 +16,6 @@ To get started after cloning the project:
   * `poetry install`
 * Enter the virtualenv to interact with the setup:
   * `poetry shell`
-* Run the tool locally:
-  * `external-targets -k <your kubeconfig>`
 * Install as helm chart:
   * `helm -n <namespace> install external-targets-test ./helm/external-targets/ -f values.yaml`
   * Example values file: 
@@ -40,10 +38,12 @@ To get started after cloning the project:
       serviceMonitorSelectorLabel:
         release: prometheus
       metricsPath: "/metrics/"
-    
+
     # The port for the metrics endpoint for all hosts.
     service:
         metricsPort: "9100"
     ``` 
+
+[kube-prometheus-stack]: https://github.com/prometheus-community/helm-charts/tree/main/charts/kube-prometheus-stack
 
 [poetry-proj]: https://python-poetry.org/

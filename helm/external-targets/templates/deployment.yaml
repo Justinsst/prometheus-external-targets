@@ -46,9 +46,26 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.namespace
-          envFrom:
-          - configMapRef:
-              name: {{ include "external-targets.fullname" . }}-configmap
+            - name: BASE_ENDPOINT_MANIFEST
+              value: |
+                apiVersion: v1
+                kind: Endpoints
+                metadata:
+                  name: {{ include "external-targets.fullname" . }}
+                  namespace: {{ .Release.Namespace }}
+                labels:
+                  {{- include "external-targets.labels" . | nindent 18 }}
+                subsets:
+                  - addresses: []
+                    ports:
+                      - name: metrics
+                        port: {{ .Values.service.metricsPort }}
+                        protocol: TCP
+            - name: TARGETS
+              value: |
+                {{- range .Values.externalTargets }}
+                {{ . }}
+                {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
