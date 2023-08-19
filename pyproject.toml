@@ -1,12 +1,12 @@
 [tool.poetry]
 name = "external-targets"
-version = "0.1.0"
+version = "0.2.0"
 description = ""
 authors = ["Justin Stewart <justinstewart950@gmail.com>"]
 packages = [{include = "external_targets"}]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.8,<4"
 PyYAML = "^6.0"
 kubernetes = "^26.1.0"
 
