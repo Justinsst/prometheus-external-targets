@@ -39,7 +39,7 @@ def main():
             kube_api.apply_endpoint(body, NAMESPACE, kubeconfig=kubeconfig)
             logging.info(f"Successfully updated Endpoint resource.")
         except RuntimeError:
-            logging.exception()
+            logging.exception("")
         logging.info(
             f"Waiting for {REFRESH_INTERVAL} seconds before next refresh."
         )
