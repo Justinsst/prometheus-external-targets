@@ -1,6 +1,6 @@
 [tool.poetry]
-name = "external-targets"
-version = "0.2.0"
+name = "prometheus-external-targets"
+version = "0.3.0"
 description = ""
 authors = ["Justin Stewart <justinstewart950@gmail.com>"]
 packages = [{include = "external_targets"}]

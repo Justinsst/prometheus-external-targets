@@ -1,11 +1,11 @@
 apiVersion: v2
-name: external-targets
+name: prometheus-external-targets
 description: This chart creates a serviceMonitor, headless service and endpoint resource for scraping prometheus targets external to a cluster.
 type: application
-version: 0.1.0
-appVersion: "v0.2.0"
+version: 0.2.0
+appVersion: "v0.3.0"
 maintainers:
   - name: JustinStewart
     email: justinstewart950@gmail.com
 sources:
-  - https://github.com/Justinsst/kube-prom-external-targets
+  - https://github.com/Justinsst/prometheus-external-targets
