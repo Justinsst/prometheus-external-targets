@@ -28,7 +28,7 @@ service:
 replicaCount: 1
 
 image:
-  repository: docker.io/justinsst/external-targets
+  repository: docker.io/justinsst/prometheus-external-targets
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
