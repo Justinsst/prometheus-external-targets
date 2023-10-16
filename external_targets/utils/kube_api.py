@@ -54,8 +54,8 @@ def apply_endpoint(
             body=manifest,
         )
         logging.info(
-            f"{manifest['kind']} resource with name "
-            f"{manifest['metadata']['name']} was replaced."
+            f'{manifest["kind"]} resource "{manifest["metadata"]["name"]}" '
+            "was replaced."
         )
         return True
     except client.ApiException:
