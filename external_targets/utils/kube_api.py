@@ -26,24 +26,27 @@ def cluster_config(func):
 
 
 @cluster_config
-def apply_endpoint(manifest, namespace, kubeconfig=None):
+def apply_endpoint(
+    manifest: dict, namespace: str, kubeconfig: str = None
+) -> bool:
     v1 = client.CoreV1Api()
+    # Attmept to create the resource first.
     try:
         v1.create_namespaced_endpoints(namespace=namespace, body=manifest)
         return True
     except client.ApiException as e:
         if e.reason == "Conflict":
             logger.info(
-                f"Failed to create {manifest['metadata']['name']} "
-                f"{manifest['kind']}, resource already exists. "
-                "Trying replace instead."
+                f"{manifest['kind']} resource "
+                f'"{manifest["metadata"]["name"]}" already exists. Trying '
+                "replace instead."
             )
         else:
             logger.exception(
                 f"Failed to create {manifest['metadata']['name']} "
                 f"{manifest['kind']}. Trying replace instead."
             )
-
+    # Try replacing the resource if creation fails.
     try:
         v1.replace_namespaced_endpoints(
             name=manifest["metadata"]["name"],
@@ -51,20 +54,22 @@ def apply_endpoint(manifest, namespace, kubeconfig=None):
             body=manifest,
         )
         logging.info(
-            f"{manifest['kind']} resource with name "
-            f"{manifest['metadata']['name']} was replaced."
+            f'{manifest["kind"]} resource "{manifest["metadata"]["name"]}" '
+            "was replaced."
         )
         return True
     except client.ApiException:
-        logger.exception("")
-        raise RuntimeError(
+        logger.error(
             f"Failed to replace Endpoint resource "
             f"{manifest['metadata']['name']}."
         )
+        raise
 
 
 @cluster_config
-def delete_endpoint(manifest, namespace, kubeconfig=None):
+def delete_endpoint(
+    manifest: dict, namespace: str, kubeconfig: str = None
+) -> bool:
     v1 = client.CoreV1Api()
     try:
         v1.delete_namespaced_endpoints(
@@ -81,3 +86,4 @@ def delete_endpoint(manifest, namespace, kubeconfig=None):
             f"Failed to delete Endpoint resource {manifest['metadata']['name']}. "
             "It may not exist."
         )
+    return False

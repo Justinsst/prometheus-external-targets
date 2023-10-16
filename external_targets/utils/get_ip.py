@@ -5,7 +5,7 @@ from time import sleep
 logger = logging.getLogger(__name__)
 
 
-def get_ip(hostname, retries, interval):
+def get_ip(hostname: str, retries: int, interval: int) -> str:
     retry_count = 1
     while retry_count <= retries:
         try:

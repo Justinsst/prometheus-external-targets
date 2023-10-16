@@ -20,7 +20,7 @@ externalTargets: []
 serviceMonitor:
   # The label to apply to the servicemonitor resource so it gets picked up by the prometheus operator. 
   serviceMonitorSelectorLabel: {}
-  metricsPath: "/metrics/"
+  metricsPath: "/metrics"
 
 service:
   metricsPort: ""
@@ -28,8 +28,8 @@ service:
 replicaCount: 1
 
 image:
-  repository: docker.io/justinsst/external-targets
-  pullPolicy: Always
+  repository: docker.io/justinsst/prometheus-external-targets
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
 
