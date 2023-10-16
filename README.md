@@ -17,7 +17,7 @@ To get started after cloning the project:
 * Enter the virtualenv to interact with the setup:
   * `poetry shell`
 
-## Install as Helm chart:
+## Install via Helm chart:
 
 You should create new Helm releases for groups of hosts (i.e., grouped by function). 
 
