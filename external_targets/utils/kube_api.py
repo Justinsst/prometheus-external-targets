@@ -26,7 +26,9 @@ def cluster_config(func):
 
 
 @cluster_config
-def apply_endpoint(manifest, namespace, kubeconfig=None):
+def apply_endpoint(
+    manifest: dict, namespace: str, kubeconfig: str = None
+) -> bool:
     v1 = client.CoreV1Api()
     # Attmept to create the resource first.
     try:
@@ -65,7 +67,9 @@ def apply_endpoint(manifest, namespace, kubeconfig=None):
 
 
 @cluster_config
-def delete_endpoint(manifest, namespace, kubeconfig=None):
+def delete_endpoint(
+    manifest: dict, namespace: str, kubeconfig: str = None
+) -> bool:
     v1 = client.CoreV1Api()
     try:
         v1.delete_namespaced_endpoints(
@@ -82,3 +86,4 @@ def delete_endpoint(manifest, namespace, kubeconfig=None):
             f"Failed to delete Endpoint resource {manifest['metadata']['name']}. "
             "It may not exist."
         )
+    return False
