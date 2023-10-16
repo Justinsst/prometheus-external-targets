@@ -1,4 +1,4 @@
-# External-targets
+# Prometheus-external-targets
 
 Allow a [Kubernetes Prometheus instance][kube-prometheus-stack] to scrape targets external to the cluster by hostname instead of IP address.
 
