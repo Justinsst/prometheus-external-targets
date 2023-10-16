@@ -15,10 +15,10 @@ def main():
     kubeconfig = parse_args().kubeconfig
     body = yaml.safe_load(os.environ["BASE_ENDPOINT_MANIFEST"])
     target_hostnames = os.environ["TARGETS"]
-    
+
     # Delete the endpoint on startup if it exists.
     kube_api.delete_endpoint(body, NAMESPACE, kubeconfig=kubeconfig)
-    
+
     while True:
         endpoint_addresses = []
         for hostname in target_hostnames.splitlines():
@@ -38,8 +38,8 @@ def main():
         try:
             kube_api.apply_endpoint(body, NAMESPACE, kubeconfig=kubeconfig)
             logging.info(f"Successfully updated Endpoint resource.")
-        except RuntimeError:
-            logging.exception("")
+        except Exception:
+            logging.exception("Failed to update the Endpoint resource.")
         logging.info(
             f"Waiting for {REFRESH_INTERVAL} seconds before next refresh."
         )
