@@ -28,6 +28,7 @@ def cluster_config(func):
 @cluster_config
 def apply_endpoint(manifest, namespace, kubeconfig=None):
     v1 = client.CoreV1Api()
+    # Attmept to create the resource first.
     try:
         v1.create_namespaced_endpoints(namespace=namespace, body=manifest)
         return True
@@ -43,7 +44,7 @@ def apply_endpoint(manifest, namespace, kubeconfig=None):
                 f"Failed to create {manifest['metadata']['name']} "
                 f"{manifest['kind']}. Trying replace instead."
             )
-
+    # Try replacing the resource if creation fails.
     try:
         v1.replace_namespaced_endpoints(
             name=manifest["metadata"]["name"],
@@ -56,11 +57,11 @@ def apply_endpoint(manifest, namespace, kubeconfig=None):
         )
         return True
     except client.ApiException:
-        logger.exception("")
-        raise RuntimeError(
+        logger.error(
             f"Failed to replace Endpoint resource "
             f"{manifest['metadata']['name']}."
         )
+        raise
 
 
 @cluster_config
