@@ -37,9 +37,9 @@ def apply_endpoint(
     except client.ApiException as e:
         if e.reason == "Conflict":
             logger.info(
-                f"Failed to create {manifest['metadata']['name']} "
-                f"{manifest['kind']}, resource already exists. "
-                "Trying replace instead."
+                f"{manifest['kind']} resource "
+                f'"{manifest["metadata"]["name"]}" already exists. Trying '
+                "replace instead."
             )
         else:
             logger.exception(
