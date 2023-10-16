@@ -17,7 +17,7 @@ To get started after cloning the project:
 * Enter the virtualenv to interact with the setup:
   * `poetry shell`
 * Install as helm chart:
-  * `helm -n <namespace> install external-targets-test ./helm/external-targets/ -f values.yaml`
+  * `helm -n <namespace> install external-targets-test ./helm/prometheus-external-targets/ -f values.yaml`
   * Example values file: 
     ```
     # Number of seconds to wait before refreshing the list of IPs. 
@@ -37,7 +37,7 @@ To get started after cloning the project:
       # The label to apply to the servicemonitor resource so it gets picked up by the prometheus operator. 
       serviceMonitorSelectorLabel:
         release: prometheus
-      metricsPath: "/metrics/"
+      metricsPath: "/metrics"
 
     # The port for the metrics endpoint for all hosts.
     service:
