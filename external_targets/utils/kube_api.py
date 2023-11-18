@@ -1,10 +1,12 @@
-from kubernetes import client, config
+import functools
 import logging
+from kubernetes import client, config
 
 logger = logging.getLogger(__name__)
 
 
 def cluster_config(func):
+    @functools.wraps
     def wrapper(*args, **kwargs):
         if kwargs["kubeconfig"]:
             kubeconfig = kwargs["kubeconfig"]
