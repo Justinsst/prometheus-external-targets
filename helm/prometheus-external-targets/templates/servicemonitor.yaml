@@ -17,6 +17,9 @@ spec:
   namespaceSelector:
     matchNames:
     - {{ .Release.Namespace }}
+  {{- if .Values.serviceMonitor.jobLabel }}
+  jobLabel: {{ .Values.serviceMonitor.jobLabel }} 
+  {{- end }}
   selector:
     matchLabels:
       {{- include "external-targets.labels" . | nindent 6 }}

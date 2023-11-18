@@ -21,6 +21,7 @@ serviceMonitor:
   # The label to apply to the servicemonitor resource so it gets picked up by the prometheus operator. 
   serviceMonitorSelectorLabel: {}
   metricsPath: "/metrics"
+  jobLabel: ""
 
 service:
   metricsPort: ""
