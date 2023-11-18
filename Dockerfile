@@ -3,7 +3,7 @@ FROM python:3.11.4-slim-bullseye
 ENV APP_GROUP=python \
     APP_USER=python \
     APP_USER_ID=9999 \
-    POETRY_VERSION=1.5.1 \
+    POETRY_VERSION=1.7.1 \
     DUMB_INIT_VERSION=1.2.2
 ENV PATH="$PATH:/home/$APP_USER/.local/bin" \
     APP_DIR="/home/${APP_USER}/content"
