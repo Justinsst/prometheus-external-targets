@@ -53,8 +53,8 @@ spec:
                 metadata:
                   name: {{ include "external-targets.fullname" . }}
                   namespace: {{ .Release.Namespace }}
-                labels:
-                  {{- include "external-targets.labels" . | nindent 18 }}
+                  labels:
+                    {{- include "external-targets.labels" . | nindent 20 }}
                 subsets:
                   - addresses: []
                     ports:

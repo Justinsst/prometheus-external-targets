@@ -2,7 +2,7 @@ apiVersion: v2
 name: prometheus-external-targets
 description: This chart creates a serviceMonitor, headless service and endpoint resource for scraping prometheus targets external to a cluster.
 type: application
-version: 0.3.0
+version: 0.3.1
 appVersion: "v0.4.0"
 maintainers:
   - name: JustinStewart
